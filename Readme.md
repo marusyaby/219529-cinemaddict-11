@@ -1,7 +1,7 @@
 # Личный проект «Киноман» [![Build status][travis-image]][travis-url]
 
 * Студент: [Maria Hrol](https://up.htmlacademy.ru/ecmascript/11/user/219529).
-* Наставник: `Неизвестно`.
+* Наставник: [Без наставника](https://htmlacademy.ru/intensive/ecmascript).
 
 ---
 
