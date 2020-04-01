@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 
 const FILMS_COUNT = 5;
 const FILMS_EXTRA_COUNT = 2;
@@ -87,7 +87,7 @@ const createFilmCardTemplate = () => {
         <button class="film-card__controls-item button film-card__controls-item--favorite">Mark as favorite</button>
       </form>
     </article>`
-  )
+  );
 };
 
 const createButtonTemlate = () => {
