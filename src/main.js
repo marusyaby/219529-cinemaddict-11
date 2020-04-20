@@ -6,10 +6,13 @@ import {
   createFilmsTopTemplate,
   createFilmsMostCommentedTemplate,
 } from './components/films.js';
+import {getRandomFilms} from './mock/random-film';
 
-import {createFilmCardTemplate} from './components/filmcard.js';
+import {createFilmCardTemplate} from './components/film-card.js';
 import {createButtonTemlate} from './components/button.js';
 import {createFilmDetailsTemplate} from './components/film-details.js';
+import {createFooterStatTemplate} from './components/footer-stat.js';
+import {createCommentsTemplate} from './components/comments.js';
 
 const FILMS_COUNT = 5;
 const FILMS_EXTRA_COUNT = 2;
@@ -31,18 +34,28 @@ render(siteMain, createFilmsTemplate());
 const filmsSection = document.querySelector(`.films`);
 const filmsList = filmsSection.querySelector(`.films-list`);
 const filmsContainer = filmsList.querySelector(`.films-list__container`);
-repeat(FILMS_COUNT, () =>
-  render(filmsContainer, createFilmCardTemplate()));
+
+const films = getRandomFilms(FILMS_COUNT);
+console.log(films);
+
+films.forEach((film) => {
+  render(filmsContainer, createFilmCardTemplate(film));
+});
 
 render(filmsSection, createFilmsTopTemplate());
 render(filmsSection, createFilmsMostCommentedTemplate());
 const filmsExtraContainers = filmsSection.querySelectorAll(`.films-list--extra .films-list__container`);
 filmsExtraContainers.forEach((filmsExtraContainer) => {
   repeat(FILMS_EXTRA_COUNT, () =>
-    render(filmsExtraContainer, createFilmCardTemplate()));
+    render(filmsExtraContainer, createFilmCardTemplate(films[0])));
 });
 
 render(filmsList, createButtonTemlate());
 
 const siteFooter = document.querySelector(`.footer`);
-render(siteFooter, createFilmDetailsTemplate(), `afterend`);
+render(siteFooter, createFooterStatTemplate(films.length));
+render(siteFooter, createFilmDetailsTemplate(films[0]), `afterend`);
+
+const detailsBottomContainer = document.querySelector(`.form-details__bottom-container`);
+const comments = films[0].comments;
+render(detailsBottomContainer, createCommentsTemplate(comments));
