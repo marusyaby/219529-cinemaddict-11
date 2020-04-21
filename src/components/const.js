@@ -18,6 +18,12 @@ const USER_TITLES = [
   }
 ];
 
+const SORT_NAMES = [
+  `default`,
+  `date`,
+  `rating`,
+];
+
 const Emoji = {
   ANGRY: `angry.png`,
   PUKE: `puke.png`,
@@ -25,8 +31,11 @@ const Emoji = {
   SMILE: `smile.png`,
 };
 
+
+
 export {
   DESCRIPTION_LENGTH_MAX,
   USER_TITLES,
+  SORT_NAMES,
   Emoji,
 };
