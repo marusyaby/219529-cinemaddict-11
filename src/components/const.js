@@ -31,8 +31,6 @@ const Emoji = {
   SMILE: `smile.png`,
 };
 
-
-
 export {
   DESCRIPTION_LENGTH_MAX,
   USER_TITLES,

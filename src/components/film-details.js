@@ -26,7 +26,6 @@ const createFilmDetailsTemplate = (film) => {
     duration,
     country,
     genres,
-    comments,
     isInList,
     isWatched,
     isFavourite,

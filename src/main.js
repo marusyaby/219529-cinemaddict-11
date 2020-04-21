@@ -1,24 +1,22 @@
 import {createProfileTemplate} from './components/profile.js';
 import {createNavigationTemplate} from './components/navigation.js';
 import {createSortTemplate} from './components/sort.js';
-import {
-  createFilmsTemplate,
-  createFilmsTopTemplate,
-  createFilmsMostCommentedTemplate,
-} from './components/films.js';
+import {createFilmsTemplate, createFilmsTopTemplate, createFilmsMostCommentedTemplate} from './components/film-containers.js';
 import {getRandomFilms} from './mock/random-film.js';
-
 import {createFilmCardTemplate} from './components/film-card.js';
 import {createButtonTemlate} from './components/button.js';
 import {createFilmDetailsTemplate} from './components/film-details.js';
 import {createFooterStatTemplate} from './components/footer-stat.js';
 import {createCommentsTemplate} from './components/comments.js';
+import {getTopRatedFilms, getMostCommentedFilms} from './components/extra-films.js';
 
 const FILMS_COUNT = {
   TOTAL: 15,
   ON_START: 5,
   BY_BUTTON: 5,
 };
+
+const EXTRA_FILMS_COUNT = 2;
 
 const films = getRandomFilms(FILMS_COUNT.TOTAL);
 const siteMain = document.querySelector(`.main`);
@@ -81,28 +79,31 @@ const createFilmDetails = () => {
   render(detailsBottomContainer, createCommentsTemplate(comments));
 };
 
+const createFilmsExtra = () => {
+  const topRatedFilms = getTopRatedFilms(films, EXTRA_FILMS_COUNT);
+  const mostCommentedFilms = getMostCommentedFilms(films, EXTRA_FILMS_COUNT);
+  const filmsSection = document.querySelector(`.films`);
+
+  if (topRatedFilms) {
+    render(filmsSection, createFilmsTopTemplate());
+    const filmsTopContainer = filmsSection.querySelector(`.js-films-top`);
+    topRatedFilms.forEach((film) => {
+      render(filmsTopContainer, createFilmCardTemplate(film));
+    });
+  }
+
+  if (mostCommentedFilms) {
+    render(filmsSection, createFilmsMostCommentedTemplate());
+    const filmsMostCommentedContainer = filmsSection.querySelector(`.js-films-most`);
+    mostCommentedFilms.forEach((film) =>
+      render(filmsMostCommentedContainer, createFilmCardTemplate(film)));
+  }
+};
+
 createHeader();
 createNavigation();
 createFilms();
 createFooter();
-// createFilmDetails();
-
-
-const createFilmsExtra = () => {
-  const repeat = (count, action) =>
-    Array(count).fill(``).forEach(action);
-
-  const filmsSection = document.querySelector(`.films`);
-
-  render(filmsSection, createFilmsTopTemplate());
-  render(filmsSection, createFilmsMostCommentedTemplate());
-
-  const filmsExtraContainers = filmsSection.querySelectorAll(`.films-list--extra .films-list__container`);
-  filmsExtraContainers.forEach((filmsExtraContainer) => {
-    repeat(2, () =>
-      render(filmsExtraContainer, createFilmCardTemplate(films[0])));
-  });
-};
-
 createFilmsExtra();
+createFilmDetails();
 
