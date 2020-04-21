@@ -1,9 +1,21 @@
+import {SORT_NAMES} from './const.js';
+
+const createSortMarkup = (sortNames) => {
+  return sortNames.map((sortName, index) => {
+    const classActive = index === 0 ? `sort__button--active` : ``;
+
+    return (
+      `<li><a href="#" class="sort__button ${classActive}">Sort by ${sortName}</a></li>`
+    );
+  }).join(`\n`);
+};
+
 const createSortTemplate = () => {
+  const sortMarkup = createSortMarkup(SORT_NAMES);
+
   return (
     `<ul class="sort">
-      <li><a href="#" class="sort__button sort__button--active">Sort by default</a></li>
-      <li><a href="#" class="sort__button">Sort by date</a></li>
-      <li><a href="#" class="sort__button">Sort by rating</a></li>
+        ${sortMarkup}
     </ul>`
   );
 };
