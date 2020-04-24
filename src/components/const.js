@@ -31,9 +31,28 @@ const Emoji = {
   SMILE: `smile.png`,
 };
 
+const FilmsSection = {
+  All: {
+    title: `All Films`,
+    isExtra: false,
+    keyToSort: ``
+  },
+  TopRated: {
+    title: `Top Rated`,
+    isExtra: true,
+    keyToSort: `rating`
+  },
+  MostCommented: {
+    title: `Most Commented`,
+    isExtra: true,
+    keyToSort: `commentsCount`
+  }
+};
+
 export {
   DESCRIPTION_LENGTH_MAX,
   USER_TITLES,
   SORT_NAMES,
   Emoji,
+  FilmsSection,
 };

@@ -1,5 +1,12 @@
 import {DESCRIPTION_LENGTH_MAX} from './const.js';
 
+const createElement = (template) => {
+  const newElement = document.createElement(`div`);
+  newElement.innerHTML = template;
+
+  return newElement.firstElementChild;
+};
+
 const formatDuration = (minutesTotal) => {
   const hours = Math.floor(minutesTotal / 60);
   const minutes = minutesTotal % 60;
@@ -32,9 +39,51 @@ const formatCommentDate = (date) => {
   return `${year}/${month}/${day} ${time}`;
 };
 
+const getFilmsByKey = (filmsArray, key, filmsCount) => {
+  let filmsByKey = null;
+
+  const hasKeyValues = (film) =>
+    film[key] > 0;
+
+  const sortFilmsByKey = (array) => {
+    return array.slice().sort((a, b) => {
+      return b[key] - a[key];
+    });
+  };
+
+  if (filmsArray.some(hasKeyValues)) {
+    filmsByKey = sortFilmsByKey(filmsArray).slice(0, filmsCount);
+  }
+
+  return filmsByKey;
+};
+
+const RenderPosition = {
+  AFTERBEGIN: `afterbegin`,
+  BEFOREEND: `beforeend`,
+  AFTEREND: `afterend`
+};
+
+const render = (container, element, place = RenderPosition.BEFOREEND) => {
+  switch (place) {
+    // case RenderPosition.AFTERBEGIN:
+    //   container.prepend(element);
+    //   break;
+    case RenderPosition.BEFOREEND:
+      container.append(element);
+      break;
+    case RenderPosition.AFTEREND:
+      container.after(element);
+      break;
+  }
+};
+
 export {
+  createElement,
   formatDuration,
   formatDescription,
   formatReleaseDate,
   formatCommentDate,
+  getFilmsByKey,
+  render,
 };
