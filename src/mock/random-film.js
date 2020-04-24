@@ -71,6 +71,8 @@ const getRandomComments = (count) => {
 
 const getRandomFilm = () => {
   const title = getRandomArrayItem(TITLES);
+  const comments = getRandomComments(getRandomNumber(0, 5));
+  const commentsCount = comments.length;
 
   return {
     title,
@@ -91,7 +93,8 @@ const getRandomFilm = () => {
     isWatched: getRandomBoolean(),
     isFavourite: getRandomBoolean(),
 
-    comments: getRandomComments(getRandomNumber(0, 5)),
+    comments,
+    commentsCount,
   };
 };
 

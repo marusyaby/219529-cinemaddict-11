@@ -1,10 +1,11 @@
 import {USER_TITLES} from './const.js';
+import {createElement} from './utils.js';
 
-const getUserTitle = (filmsWatched) => {
+const getUserTitle = (filmsWatchedCount) => {
   let userTitle = ``;
 
   for (const title of USER_TITLES) {
-    if (filmsWatched >= title.FILMS_MIN && filmsWatched <= title.FILMS_MAX) {
+    if (filmsWatchedCount >= title.FILMS_MIN && filmsWatchedCount <= title.FILMS_MAX) {
       userTitle = title.NAME;
       break;
     }
@@ -13,8 +14,8 @@ const getUserTitle = (filmsWatched) => {
   return userTitle;
 };
 
-const createProfileTemplate = (filmsWatched) => {
-  const userTitle = getUserTitle(filmsWatched);
+const createProfileTemplate = (filmsWatchedCount) => {
+  const userTitle = getUserTitle(filmsWatchedCount);
 
   return (
     `<section class="header__profile profile">
@@ -23,6 +24,29 @@ const createProfileTemplate = (filmsWatched) => {
     </section>`
   );
 };
+
+export default class Profile {
+  constructor(filmsWatchedCount) {
+    this._filmsWatchedCount = filmsWatchedCount;
+    this._element = null;
+  }
+
+  getTemplate() {
+    return createProfileTemplate(this._filmsWatchedCount);
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}
 
 export {
   createProfileTemplate,

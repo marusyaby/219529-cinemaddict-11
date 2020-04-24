@@ -1,26 +1,24 @@
 import {createElement} from './utils.js';
 
-const createFooterStatTemplate = (filmsCount) => {
+const createShowMoreButtonTemplate = () => {
   return (
-    `<p>${filmsCount} movies inside</p>`
+    `<button class="films-list__show-more">Show more</button>`
   );
 };
 
-export default class FooterStat {
-  constructor(filmsCount) {
-    this._filmsCount = filmsCount;
+export default class ShowMoreButton {
+  constructor() {
     this._element = null;
   }
 
   getTemplate() {
-    return createFooterStatTemplate(this._filmsCount);
+    return createShowMoreButtonTemplate();
   }
 
   getElement() {
     if (!this._element) {
       this._element = createElement(this.getTemplate());
     }
-
     return this._element;
   }
 
@@ -29,4 +27,6 @@ export default class FooterStat {
   }
 }
 
-export {createFooterStatTemplate};
+export {
+  createShowMoreButtonTemplate,
+};
