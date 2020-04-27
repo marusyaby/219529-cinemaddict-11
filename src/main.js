@@ -1,13 +1,14 @@
-import CommentsComponent from './components/comments';
-import FilmCardComponent from './components/film-card';
-import FilmDetailsComponent from './components/film-details';
-import FilmsComponent from './components/films';
-import FilmsListComponent from './components/films-list';
-import FooterStatComponent from './components/footer-stat';
-import NavigationComponent from './components/navigation';
-import ProfileComponent from './components/profile';
-import ShowMoreButtonComponent from './components/show-more-button';
-import SortComponent from './components/sort';
+import CommentsComponent from './components/comments.js';
+import NoFilmsComponent from './components/no-films.js';
+import FilmCardComponent from './components/film-card.js';
+import FilmDetailsComponent from './components/film-details.js';
+import FilmsComponent from './components/films.js';
+import FilmsListComponent from './components/films-list.js';
+import FooterStatComponent from './components/footer-stat.js';
+import NavigationComponent from './components/navigation.js';
+import ProfileComponent from './components/profile.js';
+import ShowMoreButtonComponent from './components/show-more-button.js';
+import SortComponent from './components/sort.js';
 
 import {getRandomFilms} from './mock/random-film.js';
 import {getFilmsByKey} from './components/utils.js';
@@ -131,10 +132,21 @@ render(siteFooter, new FooterStatComponent(films.length).getElement());
 
 const filmsComponent = new FilmsComponent();
 render(siteMain, filmsComponent.getElement());
-renderFilmsList(filmsComponent, FilmsSection.All, films);
 
-const topRatedFilms = getFilmsByKey(films, FilmsSection.TopRated.keyToSort, FilmsCount.EXTRA);
-const mostCommentedFilms = getFilmsByKey(films, FilmsSection.MostCommented.keyToSort, FilmsCount.EXTRA);
+const renderAllFilmsLists = () => {
+  if (films.length === 0) {
+    render(filmsComponent.getElement(), new NoFilmsComponent().getElement());
+    return;
+  }
 
-renderFilmsListExtra(filmsComponent, FilmsSection.TopRated, topRatedFilms);
-renderFilmsListExtra(filmsComponent, FilmsSection.MostCommented, mostCommentedFilms);
+  renderFilmsList(filmsComponent, FilmsSection.All, films);
+
+  const topRatedFilms = getFilmsByKey(films, FilmsSection.TopRated.keyToSort, FilmsCount.EXTRA);
+  const mostCommentedFilms = getFilmsByKey(films, FilmsSection.MostCommented.keyToSort, FilmsCount.EXTRA);
+
+  renderFilmsListExtra(filmsComponent, FilmsSection.TopRated, topRatedFilms);
+  renderFilmsListExtra(filmsComponent, FilmsSection.MostCommented, mostCommentedFilms);
+};
+
+renderAllFilmsLists();
+
