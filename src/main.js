@@ -12,32 +12,49 @@ import SortComponent from './components/sort';
 import {getRandomFilms} from './mock/random-film.js';
 import {getFilmsByKey} from './components/utils.js';
 import {render} from './components/utils.js';
-import{FilmsSection} from './components/const.js';
+import {FilmsSection} from './components/const.js';
 
 const FilmsCount = {
   TOTAL: 15,
   ON_START: 5,
   BY_BUTTON: 5,
-  EXTRA: 5
+  EXTRA: 2
 };
 
 const renderFilmCard = (filmList, film) => {
-  const onCloseButtonClick = () => {
-    siteMain.removeChild(filmDetailsComponent.getElement());
+  const onEscKeyDown = (evt) => {
+    const isEscKey = evt.key === `Escape` || evt.key === `Esc`;
+
+    if (isEscKey) {
+      closeFilmDetails();
+      document.removeEventListener(`keydown`, onEscKeyDown);
+    }
+  };
+
+  const closeFilmDetails = () => {
+    filmDetailsComponent.getElement().remove();
+    commentsComponent.getElement().remove();
+    document.removeEventListener(`keydown`, onEscKeyDown);
   };
 
   const openFilmDetails = () => {
-    siteMain.appendChild(filmDetailsComponent.getElement());
-    const comments = film.comments;
-    const detailsBottomContainer = filmDetailsComponent.getElement()
-      .querySelector(`.form-details__bottom-container`);
-    render(detailsBottomContainer, new CommentsComponent(comments).getElement());
+    if (document.body.querySelector(`.film-details`)) {
+      document.body.querySelector(`.film-details`).remove();
+    }
+    render(document.body, filmDetailsComponent.getElement());
+    render(detailsBottomContainer, commentsComponent.getElement());
+    closeButton.addEventListener(`click`, closeFilmDetails);
+    document.addEventListener(`keydown`, onEscKeyDown);
   };
 
+
   const filmDetailsComponent = new FilmDetailsComponent(film);
+  const commentsComponent = new CommentsComponent(film.comments);
   const closeButton = filmDetailsComponent.getElement()
-    .querySelector(`.film-details__close-btn`);
-  closeButton.addEventListener(`click`, onCloseButtonClick);
+  .querySelector(`.film-details__close-btn`);
+  const detailsBottomContainer = filmDetailsComponent.getElement()
+  .querySelector(`.form-details__bottom-container`);
+  closeButton.addEventListener(`click`, closeFilmDetails);
 
   const filmCardComponent = new FilmCardComponent(film);
   const filmCardPoster = filmCardComponent.getElement().querySelector(`.film-card__poster`);
