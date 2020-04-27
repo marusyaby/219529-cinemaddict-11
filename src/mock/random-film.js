@@ -94,6 +94,9 @@ const getRandomFilm = () => {
     isFavourite: getRandomBoolean(),
 
     comments,
+    // commentsCount() {
+    //   return this.comments.length;
+    // },
     commentsCount,
   };
 };
