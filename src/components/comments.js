@@ -1,5 +1,6 @@
-import {createElement, formatCommentDate} from './utils.js';
 import {Emoji} from './const.js';
+import AbstractComponent from './abstract.js';
+import {formatCommentDate} from './utils.js';
 
 const createCommentsMarkup = (comments) => {
   return comments.map((comment) => {
@@ -70,27 +71,13 @@ const createCommentsTemplate = (comments) => {
   );
 };
 
-export default class Comments {
+export default class Comments extends AbstractComponent {
   constructor(comments) {
+    super();
     this._comments = comments;
-    this._element = null;
   }
 
   getTemplate() {
     return createCommentsTemplate(this._comments);
   }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
-  }
 }
-
-export {createCommentsTemplate};
