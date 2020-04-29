@@ -64,7 +64,7 @@ export default class FilmCard extends AbstractComponent {
 
   setPosterClickHandler(handler) {
     this.getElement().querySelector(`.film-card__poster`)
-      .addEventListener(`click`, handler)
+      .addEventListener(`click`, handler);
   }
 
   setTitleClickHandler(handler) {
@@ -76,7 +76,4 @@ export default class FilmCard extends AbstractComponent {
     this.getElement().querySelector(`.film-card__comments`)
       .addEventListener(`click`, handler);
   }
-  // const filmCardPoster = filmCardComponent.getElement().querySelector(`.film-card__poster`);
-  // const filmCardTitle = filmCardComponent.getElement().querySelector(`.film-card__title`);
-  // const filmCardComments = filmCardComponent.getElement().querySelector(`.film-card__comments`);
 }
