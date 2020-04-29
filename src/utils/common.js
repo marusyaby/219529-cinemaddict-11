@@ -1,11 +1,4 @@
-import {DESCRIPTION_LENGTH_MAX} from './const.js';
-
-const createElement = (template) => {
-  const newElement = document.createElement(`div`);
-  newElement.innerHTML = template;
-
-  return newElement.firstElementChild;
-};
+import {DESCRIPTION_LENGTH_MAX} from '../components/const.js';
 
 const formatDuration = (minutesTotal) => {
   const hours = Math.floor(minutesTotal / 60);
@@ -58,32 +51,10 @@ const getFilmsByKey = (filmsArray, key, filmsCount) => {
   return filmsByKey;
 };
 
-const RenderPosition = {
-  AFTERBEGIN: `afterbegin`,
-  BEFOREEND: `beforeend`,
-  AFTEREND: `afterend`
-};
-
-const render = (container, element, place = RenderPosition.BEFOREEND) => {
-  switch (place) {
-    // case RenderPosition.AFTERBEGIN:
-    //   container.prepend(element);
-    //   break;
-    case RenderPosition.BEFOREEND:
-      container.append(element);
-      break;
-    case RenderPosition.AFTEREND:
-      container.after(element);
-      break;
-  }
-};
-
 export {
-  createElement,
   formatDuration,
   formatDescription,
   formatReleaseDate,
   formatCommentDate,
   getFilmsByKey,
-  render,
 };

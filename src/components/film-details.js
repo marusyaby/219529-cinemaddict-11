@@ -1,4 +1,4 @@
-import {formatReleaseDate, formatDuration} from './utils.js';
+import {formatReleaseDate, formatDuration} from '../utils/common.js';
 import AbstractComponent from './abstract.js';
 
 const createGenresMarkup = (genres) => {

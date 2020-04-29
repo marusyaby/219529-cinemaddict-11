@@ -1,6 +1,6 @@
 import {Emoji} from './const.js';
 import AbstractComponent from './abstract.js';
-import {formatCommentDate} from './utils.js';
+import {formatCommentDate} from '../utils/common.js';
 
 const createCommentsMarkup = (comments) => {
   return comments.map((comment) => {

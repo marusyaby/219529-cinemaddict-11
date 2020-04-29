@@ -11,9 +11,9 @@ import ShowMoreButtonComponent from './components/show-more-button.js';
 import SortComponent from './components/sort.js';
 
 import {getRandomFilms} from './mock/random-film.js';
-import {getFilmsByKey} from './components/utils.js';
-import {render} from './components/utils.js';
+import {getFilmsByKey} from './utils/common.js';
 import {FilmsSection} from './components/const.js';
+import {render, remove} from './utils/render';
 
 const FilmsCount = {
   TOTAL: 15,
@@ -33,8 +33,9 @@ const renderFilmCard = (filmList, film) => {
   };
 
   const closeFilmDetails = () => {
-    filmDetailsComponent.getElement().remove();
-    commentsComponent.getElement().remove();
+    remove(filmDetailsComponent);
+    remove(commentsComponent);
+
     document.removeEventListener(`keydown`, onEscKeyDown);
   };
 
@@ -42,20 +43,22 @@ const renderFilmCard = (filmList, film) => {
     if (document.body.querySelector(`.film-details`)) {
       document.body.querySelector(`.film-details`).remove();
     }
-    render(document.body, filmDetailsComponent.getElement());
-    render(detailsBottomContainer, commentsComponent.getElement());
+
+    const closeButton = filmDetailsComponent.getElement()
+    .querySelector(`.film-details__close-btn`);
+    const detailsBottomContainer = filmDetailsComponent.getElement()
+    .querySelector(`.form-details__bottom-container`);
+    closeButton.addEventListener(`click`, closeFilmDetails);
+
+    render(document.body, filmDetailsComponent);
+    render(detailsBottomContainer, commentsComponent);
+
     closeButton.addEventListener(`click`, closeFilmDetails);
     document.addEventListener(`keydown`, onEscKeyDown);
   };
 
-
   const filmDetailsComponent = new FilmDetailsComponent(film);
   const commentsComponent = new CommentsComponent(film.comments);
-  const closeButton = filmDetailsComponent.getElement()
-  .querySelector(`.film-details__close-btn`);
-  const detailsBottomContainer = filmDetailsComponent.getElement()
-  .querySelector(`.form-details__bottom-container`);
-  closeButton.addEventListener(`click`, closeFilmDetails);
 
   const filmCardComponent = new FilmCardComponent(film);
   const filmCardPoster = filmCardComponent.getElement().querySelector(`.film-card__poster`);
@@ -70,12 +73,12 @@ const renderFilmCard = (filmList, film) => {
   filmCardTitle.addEventListener(`click`, onFilmCardTitleClick);
   filmCardComments.addEventListener(`click`, onFilmCardCommentsClick);
 
-  render(filmList, filmCardComponent.getElement());
+  render(filmList, filmCardComponent);
 };
 
 const renderFilmsList = (filmsComponent, filmsList, films) => {
   const filmsListComponent = new FilmsListComponent(filmsList);
-  render(filmsComponent.getElement(), filmsListComponent.getElement());
+  render(filmsComponent.getElement(), filmsListComponent);
 
   const filmsContainer = filmsListComponent.getElement().querySelector(`.films-list__container`);
 
@@ -93,15 +96,14 @@ const renderFilmsList = (filmsComponent, filmsList, films) => {
     renderFilms(prevFilmsCount, renderedFilmsCount);
 
     if (renderedFilmsCount >= films.length) {
-      showMoreButtonComponent.getElement().remove();
-      showMoreButtonComponent.removeElement();
+      remove(showMoreButtonComponent);
     }
   };
 
   renderFilms(0, renderedFilmsCount);
 
   if (films.length > FilmsCount.ON_START) {
-    render(filmsListComponent.getElement(), showMoreButtonComponent.getElement());
+    render(filmsListComponent.getElement(), showMoreButtonComponent);
   }
 
   showMoreButtonComponent.getElement().addEventListener(`click`, onShowMoreButtonClick);
@@ -109,7 +111,7 @@ const renderFilmsList = (filmsComponent, filmsList, films) => {
 
 const renderFilmsListExtra = (filmsComponent, filmsList, films) => {
   const filmsListComponent = new FilmsListComponent(filmsList);
-  render(filmsComponent.getElement(), filmsListComponent.getElement());
+  render(filmsComponent.getElement(), filmsListComponent);
 
   const filmsContainer = filmsListComponent.getElement().
     querySelector(`.films-list__container`);
@@ -125,17 +127,17 @@ const siteHeader = document.querySelector(`.header`);
 const siteMain = document.querySelector(`.main`);
 const siteFooter = document.querySelector(`.footer`);
 
-render(siteHeader, new ProfileComponent(watchedFilmsCount).getElement());
-render(siteMain, new NavigationComponent(films).getElement());
-render(siteMain, new SortComponent().getElement());
-render(siteFooter, new FooterStatComponent(films.length).getElement());
+render(siteHeader, new ProfileComponent(watchedFilmsCount));
+render(siteMain, new NavigationComponent(films));
+render(siteMain, new SortComponent());
+render(siteFooter, new FooterStatComponent(films.length));
 
 const filmsComponent = new FilmsComponent();
-render(siteMain, filmsComponent.getElement());
+render(siteMain, filmsComponent);
 
 const renderAllFilmsLists = () => {
   if (films.length === 0) {
-    render(filmsComponent.getElement(), new NoFilmsComponent().getElement());
+    render(filmsComponent.getElement(), new NoFilmsComponent());
     return;
   }
 
