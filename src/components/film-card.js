@@ -61,4 +61,22 @@ export default class FilmCard extends AbstractComponent {
   getTemplate() {
     return createFilmCardTemplate(this._film);
   }
+
+  setPosterClickHandler(handler) {
+    this.getElement().querySelector(`.film-card__poster`)
+      .addEventListener(`click`, handler)
+  }
+
+  setTitleClickHandler(handler) {
+    this.getElement().querySelector(`.film-card__title`)
+      .addEventListener(`click`, handler);
+  }
+
+  setCommentsClickHandler(handler) {
+    this.getElement().querySelector(`.film-card__comments`)
+      .addEventListener(`click`, handler);
+  }
+  // const filmCardPoster = filmCardComponent.getElement().querySelector(`.film-card__poster`);
+  // const filmCardTitle = filmCardComponent.getElement().querySelector(`.film-card__title`);
+  // const filmCardComments = filmCardComponent.getElement().querySelector(`.film-card__comments`);
 }

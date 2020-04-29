@@ -44,16 +44,13 @@ const renderFilmCard = (filmList, film) => {
       document.body.querySelector(`.film-details`).remove();
     }
 
-    const closeButton = filmDetailsComponent.getElement()
-    .querySelector(`.film-details__close-btn`);
     const detailsBottomContainer = filmDetailsComponent.getElement()
-    .querySelector(`.form-details__bottom-container`);
-    closeButton.addEventListener(`click`, closeFilmDetails);
+      .querySelector(`.form-details__bottom-container`);
 
     render(document.body, filmDetailsComponent);
     render(detailsBottomContainer, commentsComponent);
 
-    closeButton.addEventListener(`click`, closeFilmDetails);
+    filmDetailsComponent.setCloseButtonClickHandler(closeFilmDetails);
     document.addEventListener(`keydown`, onEscKeyDown);
   };
 
@@ -61,17 +58,10 @@ const renderFilmCard = (filmList, film) => {
   const commentsComponent = new CommentsComponent(film.comments);
 
   const filmCardComponent = new FilmCardComponent(film);
-  const filmCardPoster = filmCardComponent.getElement().querySelector(`.film-card__poster`);
-  const filmCardTitle = filmCardComponent.getElement().querySelector(`.film-card__title`);
-  const filmCardComments = filmCardComponent.getElement().querySelector(`.film-card__comments`);
 
-  const onFilmCardPosterClick = () => openFilmDetails();
-  const onFilmCardTitleClick = () => openFilmDetails();
-  const onFilmCardCommentsClick = () => openFilmDetails();
-
-  filmCardPoster.addEventListener(`click`, onFilmCardPosterClick);
-  filmCardTitle.addEventListener(`click`, onFilmCardTitleClick);
-  filmCardComments.addEventListener(`click`, onFilmCardCommentsClick);
+  filmCardComponent.setPosterClickHandler(openFilmDetails);
+  filmCardComponent.setTitleClickHandler(openFilmDetails);
+  filmCardComponent.setCommentsClickHandler(openFilmDetails);
 
   render(filmList, filmCardComponent);
 };
@@ -106,7 +96,7 @@ const renderFilmsList = (filmsComponent, filmsList, films) => {
     render(filmsListComponent.getElement(), showMoreButtonComponent);
   }
 
-  showMoreButtonComponent.getElement().addEventListener(`click`, onShowMoreButtonClick);
+  showMoreButtonComponent.setClickHandler(onShowMoreButtonClick);
 };
 
 const renderFilmsListExtra = (filmsComponent, filmsList, films) => {
