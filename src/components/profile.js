@@ -1,5 +1,5 @@
 import {USER_TITLES} from './const.js';
-import {createElement} from './utils.js';
+import AbstractComponent from './abstract.js';
 
 const getUserTitle = (filmsWatchedCount) => {
   let userTitle = ``;
@@ -25,29 +25,13 @@ const createProfileTemplate = (filmsWatchedCount) => {
   );
 };
 
-export default class Profile {
+export default class Profile extends AbstractComponent {
   constructor(filmsWatchedCount) {
+    super();
     this._filmsWatchedCount = filmsWatchedCount;
-    this._element = null;
   }
 
   getTemplate() {
     return createProfileTemplate(this._filmsWatchedCount);
   }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
-  }
 }
-
-export {
-  createProfileTemplate,
-};
