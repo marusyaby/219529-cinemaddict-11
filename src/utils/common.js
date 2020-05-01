@@ -1,4 +1,4 @@
-import {DESCRIPTION_LENGTH_MAX} from '../components/const.js';
+import {DESCRIPTION_LENGTH_MAX} from './const.js';
 
 const formatDuration = (minutesTotal) => {
   const hours = Math.floor(minutesTotal / 60);
@@ -33,7 +33,7 @@ const formatCommentDate = (date) => {
 };
 
 const getFilmsByKey = (filmsArray, key, filmsCount) => {
-  let filmsByKey = null;
+  let filmsByKey = [];
 
   const hasKeyValues = (film) =>
     film[key] > 0;
@@ -51,10 +51,35 @@ const getFilmsByKey = (filmsArray, key, filmsCount) => {
   return filmsByKey;
 };
 
+const filterFilms = (films) => {
+  return ([
+    {
+      name: `All movies`,
+      results: films,
+    },
+    {
+      name: `Watchlist`,
+      results: films.filter((film) =>
+        film.isInList),
+    },
+    {
+      name: `History`,
+      results: films.filter((film) =>
+        film.isWatched),
+    },
+    {
+      name: `Favorites`,
+      results: films.filter((film) =>
+        film.isFavourite),
+    },
+  ]);
+};
+
 export {
   formatDuration,
   formatDescription,
   formatReleaseDate,
   formatCommentDate,
   getFilmsByKey,
+  filterFilms,
 };
