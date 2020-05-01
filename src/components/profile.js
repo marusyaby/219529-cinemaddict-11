@@ -1,5 +1,5 @@
-import {USER_TITLES} from './const.js';
 import AbstractComponent from './abstract.js';
+import {USER_TITLES} from '../utils/const.js';
 
 const getUserTitle = (filmsWatchedCount) => {
   let userTitle = ``;

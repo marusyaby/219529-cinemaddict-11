@@ -18,10 +18,21 @@ const USER_TITLES = [
   }
 ];
 
-const SORT_NAMES = [
-  `default`,
-  `date`,
-  `rating`,
+const DEFAULT_SORT_TYPE = `default`;
+
+const SORTS = [
+  {
+    NAME: `default`,
+    TYPE: `default`
+  },
+  {
+    NAME: `date`,
+    TYPE: `release`
+  },
+  {
+    NAME: `rating`,
+    TYPE: `rating`,
+  },
 ];
 
 const Emoji = {
@@ -32,27 +43,36 @@ const Emoji = {
 };
 
 const FilmsSection = {
-  All: {
+  ALL: {
     title: `All Films`,
     isExtra: false,
     keyToSort: ``
   },
-  TopRated: {
+  TOP_RATED: {
     title: `Top Rated`,
     isExtra: true,
     keyToSort: `rating`
   },
-  MostCommented: {
+  MOST_COMMENTED: {
     title: `Most Commented`,
     isExtra: true,
     keyToSort: `commentsCount`
   }
 };
 
+const FilmsCount = {
+  TOTAL: 15,
+  ON_START: 5,
+  BY_BUTTON: 5,
+  EXTRA: 2,
+};
+
 export {
   DESCRIPTION_LENGTH_MAX,
   USER_TITLES,
-  SORT_NAMES,
+  DEFAULT_SORT_TYPE,
+  SORTS,
   Emoji,
   FilmsSection,
+  FilmsCount,
 };

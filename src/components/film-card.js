@@ -1,5 +1,5 @@
-import {formatDuration, formatDescription} from '../utils/common.js';
 import AbstractComponent from './abstract.js';
+import {formatDuration, formatDescription} from '../utils/common.js';
 
 const createFilmCardTemplate = (film) => {
   const {

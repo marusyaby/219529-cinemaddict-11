@@ -1,28 +1,5 @@
 import AbstractComponent from './abstract.js';
-
-const filterFilms = (films) => {
-  return ([
-    {
-      name: `All movies`,
-      results: films,
-    },
-    {
-      name: `Watchlist`,
-      results: films.filter((film) =>
-        film.isInList),
-    },
-    {
-      name: `History`,
-      results: films.filter((film) =>
-        film.isWatched),
-    },
-    {
-      name: `Favorites`,
-      results: films.filter((film) =>
-        film.isFavourite),
-    }
-  ]);
-};
+import {filterFilms} from '../utils/common.js';
 
 const createFiltersMarkup = (films) => {
   const filters = filterFilms(films);
