@@ -1,6 +1,3 @@
-import CommentsComponent from '../components/comments.js';
-import FilmCardComponent from '../components/film-card.js';
-import FilmDetailsComponent from '../components/film-details.js';
 import FilmsListComponent from '../components/films-list.js';
 import NavigationComponent from '../components/navigation.js';
 import NoFilmsComponent from '../components/no-films.js';
@@ -11,6 +8,7 @@ import {remove, render, RenderPosition} from '../utils/render.js';
 import {getFilmsByKey} from '../utils/common.js';
 
 import {DEFAULT_SORT_TYPE, FilmsSection, FilmsCount} from '../utils/const.js';
+import FilmController from './film.js';
 
 const getSortedFilms = (films, sortType) => {
   if (sortType === DEFAULT_SORT_TYPE) {
@@ -20,48 +18,11 @@ const getSortedFilms = (films, sortType) => {
   return getFilmsByKey(films, sortType, films.length);
 };
 
-const renderFilmCard = (filmList, film) => {
-  const onEscKeyDown = (evt) => {
-    const isEscKey = evt.key === `Escape` || evt.key === `Esc`;
-
-    if (isEscKey) {
-      closeFilmDetails();
-      document.removeEventListener(`keydown`, onEscKeyDown);
-    }
-  };
-
-  const closeFilmDetails = () => {
-    remove(filmDetailsComponent);
-    remove(commentsComponent);
-
-    document.removeEventListener(`keydown`, onEscKeyDown);
-  };
-
-  const openFilmDetails = () => {
-    if (document.body.querySelector(`.film-details`)) {
-      document.body.querySelector(`.film-details`).remove();
-    }
-
-    const detailsBottomContainer = filmDetailsComponent.getElement()
-    .querySelector(`.form-details__bottom-container`);
-
-    render(document.body, filmDetailsComponent);
-    render(detailsBottomContainer, commentsComponent);
-
-    filmDetailsComponent.setCloseButtonClickHandler(closeFilmDetails);
-    document.addEventListener(`keydown`, onEscKeyDown);
-  };
-
-  const filmDetailsComponent = new FilmDetailsComponent(film);
-  const commentsComponent = new CommentsComponent(film.comments);
-
-  const filmCardComponent = new FilmCardComponent(film);
-
-  filmCardComponent.setPosterClickHandler(openFilmDetails);
-  filmCardComponent.setTitleClickHandler(openFilmDetails);
-  filmCardComponent.setCommentsClickHandler(openFilmDetails);
-
-  render(filmList, filmCardComponent);
+const renderFilms = (filmsContainer, filmsToRender) => {
+  filmsToRender.forEach((film) => {
+    const filmController = new FilmController(filmsContainer);
+    filmController.render(film);
+  });
 };
 
 export default class Page {
@@ -87,16 +48,11 @@ export default class Page {
       let renderedFilmsCount = FilmsCount.ON_START;
       let sortedFilms = getSortedFilms(films, this._sortComponent.getSortType());
 
-      const renderFilms = (filmsToRender) => {
-        filmsToRender.forEach((film) =>
-          renderFilmCard(filmsContainer, film));
-      };
-
       const renderShowMoreButton = () => {
         const onShowMoreButtonClick = () => {
           const prevFilmsCount = renderedFilmsCount;
           renderedFilmsCount += FilmsCount.BY_BUTTON;
-          renderFilms(sortedFilms.slice(prevFilmsCount, renderedFilmsCount));
+          renderFilms(filmsContainer, sortedFilms.slice(prevFilmsCount, renderedFilmsCount));
 
           if (renderedFilmsCount >= films.length) {
             remove(this._showMoreButtonComponent);
@@ -115,14 +71,14 @@ export default class Page {
         filmsContainer.innerHTML = ``;
 
         sortedFilms = getSortedFilms(films, sortType);
-        renderFilms(sortedFilms.slice(0, renderedFilmsCount));
+        renderFilms(filmsContainer, sortedFilms.slice(0, renderedFilmsCount));
 
         remove(this._showMoreButtonComponent);
         renderShowMoreButton();
       };
 
       render(container, filmsListComponent);
-      renderFilms(films.slice(0, renderedFilmsCount));
+      renderFilms(filmsContainer, films.slice(0, renderedFilmsCount));
       renderShowMoreButton();
 
       this._sortComponent.setSortTypeChangeHandler(onSortTypeClick);
@@ -139,8 +95,7 @@ export default class Page {
       const filmsContainer = filmsListComponent.getElement()
       .querySelector(`.films-list__container`);
 
-      filmsExtra.forEach((film) =>
-        renderFilmCard(filmsContainer, film));
+      renderFilms(filmsContainer, filmsExtra);
     };
 
     render(container.parentElement, this._sortComponent, RenderPosition.AFTERBEGIN);
