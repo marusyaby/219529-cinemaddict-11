@@ -69,6 +69,10 @@ const getRandomComments = (count) => {
   return new Array(count).fill(``).map(getRandomComment);
 };
 
+const getRandomId = () => {
+  return `${(~~(Math.random()*1e8)).toString(16)}`;
+};
+
 const getRandomFilm = () => {
   const title = getRandomArrayItem(TITLES);
   const comments = getRandomComments(getRandomNumber(0, 5));
@@ -76,6 +80,9 @@ const getRandomFilm = () => {
 
   return {
     title,
+    get id() {
+      return `${this.title.substring(0, 3)}_${this.release.getFullYear()}_${commentsCount}_${this.rating}`;
+    },
     originalTitle: title,
     director: getRandomArrayItem(NAMES.DIRECTORS),
     writers: getRandomArray(NAMES.WRITERS),
@@ -94,9 +101,6 @@ const getRandomFilm = () => {
     isFavourite: getRandomBoolean(),
 
     comments,
-    // commentsCount() {
-    //   return this.comments.length;
-    // },
     commentsCount,
   };
 };
